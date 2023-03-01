@@ -62,34 +62,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         val file= File("/storage/emulated/0/1/Emu48.exe")
-        val uri = FileProvider.getUriForFile(
-            applicationContext,
-            "com.adsale.registersite.fileprovider",
-            file
-        )
-        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        intent.flags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 
 
         Log.e("gaga",rootPath)
 
 
-//        val nn=readUri(applicationContext,uri)
+
         val nn = file.readBytes()
 
+        FileUtils.copyFileToDownloads(MainApplication.myApplication,file)
         Log.e("gaga",nn.size.toString())
 
 
+
+
     }
 
-    @Throws(IOException::class)
-    fun readUri(context: Context, uri: Uri): ByteArray{
-        val pdf: ParcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r")!!
-        assert(pdf.statSize <= Int.MAX_VALUE)
-        val data = ByteArray(pdf.statSize.toInt())
-        val fd = pdf.fileDescriptor
-        val fileStream = FileInputStream(fd)
-        fileStream.read(data)
-        return data
-    }
+
 }
